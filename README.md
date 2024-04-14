@@ -1,6 +1,6 @@
-# Aplicacion Finanzas
+# Happy Bills
 <h2>Integrantes: Juan Felipe Rojas, Andres Castaño, Samuel Arandia</h2>
-<p>Aplicación móvil de finanzas que permita registrar gastos en presupuestos individuales.</p>
+<h4>Aplicación móvil de finanzas que permita registrar gastos en presupuestos individuales.</h4>
 
 
 <h2>MockUp del proyecto:</h2>
