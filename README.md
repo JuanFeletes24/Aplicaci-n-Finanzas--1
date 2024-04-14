@@ -1,6 +1,7 @@
 # Aplicacion Finanzas
-<h2>Aplicación móvil de finanzas que permita registrar gastos en presupuestos individuales.</h2>
-<h3>Integrantes: Juan Felipe Rojas, Andres Castaño, Samuel Arandia</h3>
+<h2>Integrantes: Juan Felipe Rojas, Andres Castaño, Samuel Arandia</h2>
+<p>Aplicación móvil de finanzas que permita registrar gastos en presupuestos individuales.</p>
+
 
 <h2>MockUp del proyecto:</h2>
     
