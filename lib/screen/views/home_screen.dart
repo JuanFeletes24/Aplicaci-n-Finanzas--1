@@ -60,13 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 60,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            gradient: LinearGradient(
-              colors: [
-                Theme.of(context).colorScheme.tertiary,
-                Theme.of(context).colorScheme.secondary,
-                Theme.of(context).colorScheme.primary
-              ]
-            )
+            color: Colors.blue[700]
           ),
           child: const Icon(CupertinoIcons.add)
           )

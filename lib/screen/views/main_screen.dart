@@ -44,7 +44,6 @@ class MainScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.settings))
               ],
             ),
             const SizedBox(height: 20,),
