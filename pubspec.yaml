@@ -33,6 +33,15 @@ dependencies:
   cupertino_icons: ^1.0.6
   font_awesome_flutter: '>= 4.7.0'
   fl_chart : ^0.68.0
+  intl: ^0.19.0
+  bloc: ^8.1.4
+  firebase_core: ^2.31.0
+  flutter_bloc: ^8.1.5
+  equatable: ^2.0.5
+  firebase_auth: ^4.19.5
+  
+  user_repository:
+    path: Packages/User_Repository
 
 dev_dependencies:
   flutter_test:
