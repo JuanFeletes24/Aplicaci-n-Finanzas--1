@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
@@ -25,9 +26,9 @@ class _AddExpenseState extends State<AddExpense> {
     'tecno',
     'viaje',
     'impuestos',
-
-
   ];
+
+  String iconSelected = '';
 
   @override
   void initState() {
@@ -147,47 +148,68 @@ class _AddExpenseState extends State<AddExpense> {
                                                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)) 
                                               ),
                                               //el gridview.builder sirve para hacerlos scroleables
-                                              child: GridView.builder(
-                                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: GridView.builder(
+                                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                                    
+                                                    //cantidad de iconos mostrados en el grid
+                                                    crossAxisCount: 4,
+                                                    //espacio entre los iconos, aún no de a cuantos alinearlos
+                                                    mainAxisSpacing: 5,
+                                                    crossAxisSpacing: 5,
                                                   
-                                                  //cantidad de iconos mostrados en el grid
-                                                  crossAxisCount: 4,
-                                                  //espacio entre los iconos, aún no de a cuantos alinearlos
-                                                  mainAxisSpacing: 5,
-                                                  crossAxisSpacing: 5,
+                                                    ),
                                                 
-                                                  ),
-                                                   
-                                                //se define por la cantidad de iconos de la lista
-                                                itemCount: categoriaIconos.length,
-                                              itemBuilder: (context, int i){
-                                                return Container(
-                                                   
-                                                  width: 50,
-                                                  height: 50,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(),
-                                                    image: DecorationImage(
-                                                      image: AssetImage(
-                                                        'iconos/${categoriaIconos[i]}.png'
-                                                      )
-                                                    )
-                                                  
-                                                  
-                                                  )
-                                                
-
-                                                );
-                                            
-
-
-                                              }
+                                                  //se define por la cantidad de iconos de la lista
+                                                  itemCount: categoriaIconos.length,
+                                                itemBuilder: (context, int i){
+                                                  return GestureDetector( // permite anadir funcionalidades para que cambie el color de los iconos
+                                                    onTap: () {
+                                                      setState(() {
+                                                        iconSelected = categoriaIconos[i]; //al momento de darle al boton el color cambia
+                                                      });
+                                                    },
+                                                    child: Container(               
+                                                      width: 50,
+                                                      height: 50,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          width: 3,
+                                                          color: iconSelected == categoriaIconos[i]
+                                                                ? Colors.blue
+                                                                : Colors.grey,
+                                                        ),
+                                                        borderRadius: BorderRadius.circular(12),
+                                                        image: DecorationImage(
+                                                          image: AssetImage(
+                                                            'iconos/${categoriaIconos[i]}.png'
+                                                          )
+                                                        )                                                  
+                                                      ),
+                                                    ),
+                                                  );                                      
+                                                }
+                                                ),
                                               )
                                             )
                                           : Container(),
                                         const SizedBox(height: 16),
                                         TextFormField(
                                           textAlignVertical: TextAlignVertical.center,
+                                          onTap: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (ctx2) {
+                                                return AlertDialog(
+                                                  content: ColorPicker( //widget que nos permite elegir un color
+                                                    pickerColor: Colors.blue, //color escogido por default
+                                                    onColorChanged: (value) {}, //este sera el valor que el usuario escoga dentro de la aplicacion
+                                                  ),
+                                                );
+                                              });
+                                          },
+                                          readOnly: true,
                                           decoration: InputDecoration(
                                             isDense: true, //Para reducir el espacio verticial
                                             filled: true,
