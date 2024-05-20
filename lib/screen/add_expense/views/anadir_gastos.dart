@@ -16,6 +16,18 @@ class _AddExpenseState extends State<AddExpense> {
   TextEditingController dateControler = TextEditingController();
   DateTime dateInitial = DateTime.now();
 
+  List<String>categoriaIconos = [
+    'casa',
+    'comida',
+    'compras',
+    'entretenimiento',
+    'mascotas',
+    'tecno',
+    'viaje',
+
+
+  ];
+
   @override
   void initState() {
     dateControler.text = DateFormat('dd/MM/yyyy').format(DateTime.now()); //para poder simplificar la fecha utilizamos una dependencia
@@ -127,12 +139,40 @@ class _AddExpenseState extends State<AddExpense> {
                                         ),
                                         expandido //si se presiona el boton de iconos, se despliega el container 
                                           ? Container( //contenedor de los iconos
-                                              width: double.infinity,
+                                              width: MediaQuery.of(context).size.width,
                                               height: 200,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)) 
                                               ),
+                                              child: GridView.builder(
+                                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                                  
+                                                  //cantidad de iconos mostrados en el grid
+                                                  crossAxisCount: 3),
+                                                //se define por la cantidad de iconos de la lista
+                                                itemCount: categoriaIconos.length,
+                                              itemBuilder: (context, int i){
+                                                return Container(
+                                                  width: 50,
+                                                  height: 50,
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                        'iconos/${categoriaIconos[i]}.png'
+                                                      )
+                                                    )
+                                                  
+                                                  
+                                                  )
+                                                
+
+                                                );
+                                            
+
+
+                                              }
+                                              )
                                             )
                                           : Container(),
                                         const SizedBox(height: 16),
