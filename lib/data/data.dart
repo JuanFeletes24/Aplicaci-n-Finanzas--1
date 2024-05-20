@@ -22,9 +22,9 @@ List<Map<String, dynamic>> transactionData = [
     'icon': const FaIcon(FontAwesomeIcons.moneyBill),
     'name': 'Impuestos',
     'totalAmount': '-\$250000.00',
-    'color': Colors.grey[400],
+    'color': Colors.greenAccent[200],
     'date' : 'Ayer',
-    'color-icon': Colors.grey[500]
+    'color-icon': Colors.greenAccent[400]
   },
   {
     'icon': const FaIcon(FontAwesomeIcons.bus),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:happybills_branch_juanrojas/screen/add_expense/views/anadir_gastos.dart';
 import 'package:happybills_branch_juanrojas/screen/stats/stats.dart';
 import 'package:happybills_branch_juanrojas/screen/views/main_screen.dart';
 
@@ -53,7 +54,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {}, 
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) => const AddExpense(), //esta es la funcionalidad de navegacion del boton de añadir gastos.
+              )
+          );
+
+        }, 
         shape: const CircleBorder(),
         child: Container(
           width: 60,
