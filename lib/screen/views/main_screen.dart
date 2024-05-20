@@ -1,21 +1,24 @@
+//Mainscreen 
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:happybills_branch_juanrojas/data/data.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
   @override
+  //devuelve una interfaz
   Widget build(BuildContext context) {
+    //safearea hace que los componentes no choquen con la barra de estado
     return SafeArea(
+      //añadir relleno
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
         child: Column(
           children: [
             Row(
+              //añade espacio entre los hijos
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
@@ -48,6 +51,7 @@ class MainScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20,),
             Container(
+              //mediaquery obtiene el ancho de la pantalla
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.width / 2,
               decoration: BoxDecoration(
@@ -89,6 +93,7 @@ class MainScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20,),
             Expanded(
+              //crea la lista scroleable de los gastos, estos gastos están en la lista de stats.dart
               child: ListView.builder(
                 itemCount: transactionData.length,
                 itemBuilder: (context, int i) {
