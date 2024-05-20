@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -15,9 +16,7 @@ class _AddExpenseState extends State<AddExpense> {
   TextEditingController dateControler = TextEditingController();
   DateTime dateInitial = DateTime.now();
 
-
   @override
-
   void initState() {
     dateControler.text = DateFormat('dd/MM/yyyy').format(DateTime.now()); //para poder simplificar la fecha utilizamos una dependencia
     super.initState();
@@ -82,59 +81,85 @@ class _AddExpenseState extends State<AddExpense> {
                           showDialog(
                             context: context,
                             builder: (ctx) {
-                              return AlertDialog(
-                                title: const Text("Crea una categoria"),
-
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                     TextFormField(
-                                      textAlignVertical: TextAlignVertical.center,
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.white, 
-                                          label: Text("Nombre", style: TextStyle(color: Colors.black54),), //deje el label en cambio del hinttext porque la animacion que tiene es muy bacana
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(20),
-                                            borderSide: BorderSide.none 
+                              bool expandido = false;
+                              return StatefulBuilder(
+                                builder: (context, setState){
+                                  return AlertDialog(
+                                    title: const Text("Crea una categoria"),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        TextFormField(
+                                          textAlignVertical: TextAlignVertical.center,
+                                          decoration: InputDecoration(
+                                            isDense: true, //Para reducir el espacio verticial
+                                            filled: true,
+                                            fillColor: Colors.white, 
+                                            label: Text("Nombre", style: TextStyle(color: Colors.black54),), //deje el label en cambio del hinttext porque la animacion que tiene es muy bacana
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(20),
+                                              borderSide: BorderSide.none 
+                                            )
                                           )
-                                        )
-                                    ),
-                                    const SizedBox(height: 16),
-                                    TextFormField(
-                                      textAlignVertical: TextAlignVertical.center,
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.white, 
-                                          label: Text("Icono", style: TextStyle(color: Colors.black54),), //deje el label en cambio del hinttext porque la animacion que tiene es muy bacana
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(20),
-                                            borderSide: BorderSide.none 
+                                        ),
+                                        const SizedBox(height: 16),
+                                        TextFormField(
+                                          onTap: (){
+                                            setState(() {
+                                              expandido = !expandido;
+                                            });
+                                          },
+                                          textAlignVertical: TextAlignVertical.center,
+                                          readOnly: true, //solo para leer
+                                          decoration: InputDecoration(
+                                            isDense: true, //Para reducir el espacio verticial, daba problemas para ver  los iconos
+                                            filled: true,
+                                            suffixIcon: Icon(CupertinoIcons.chevron_down, size: 12), //añade un icono al final del campo de texto para ver los diferentes iconos
+                                            fillColor: Colors.white, 
+                                            label: Text("Icono", style: TextStyle(color: Colors.black54),), //deje el label en cambio del hinttext porque la animacion que tiene es muy bacana
+                                            border: OutlineInputBorder(
+                                              borderRadius: expandido
+                                                  ? BorderRadius.vertical(top: Radius.circular(12))
+                                                  : BorderRadius.circular(20),
+                                              borderSide: BorderSide.none 
+                                            )
                                           )
-                                        )
-                                    ),
-                                    const SizedBox(height: 16),
-                                    TextFormField(
-                                      textAlignVertical: TextAlignVertical.center,
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.white, 
-                                          label: Text("Color", style: TextStyle(color: Colors.black54),), //deje el label en cambio del hinttext porque la animacion que tiene es muy bacana
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(20),
-                                            borderSide: BorderSide.none 
+                                        ),
+                                        expandido //si se presiona el boton de iconos, se despliega el container 
+                                          ? Container( //contenedor de los iconos
+                                              width: double.infinity,
+                                              height: 200,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)) 
+                                              ),
+                                            )
+                                          : Container(),
+                                        const SizedBox(height: 16),
+                                        TextFormField(
+                                          textAlignVertical: TextAlignVertical.center,
+                                          decoration: InputDecoration(
+                                            isDense: true, //Para reducir el espacio verticial
+                                            filled: true,
+                                            fillColor: Colors.white, 
+                                            label: Text("Color", style: TextStyle(color: Colors.black54),), //deje el label en cambio del hinttext porque la animacion que tiene es muy bacana
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(20),
+                                              borderSide: BorderSide.none 
+                                            )
                                           )
-                                        )
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  );
+                                }
                               );
                             });
                         },
                         icon: const Icon(
-                        FontAwesomeIcons.plus,
-                        size: 17,
-                        color: Colors.black54
+                          FontAwesomeIcons.plus,
+                          size: 17,
+                          color: Colors.black54
                         )
                       ),
                     label: Text("Categoria", style: TextStyle(color: Colors.black54),), //deje el label en cambio del hinttext porque la animacion que tiene es muy bacana
@@ -150,12 +175,14 @@ class _AddExpenseState extends State<AddExpense> {
                 textAlignVertical: TextAlignVertical.center,
                 readOnly: true, //como solo se inserta la fecha el usuario no deberia de escribir
                 onTap: () async{
-                  DateTime? newDate = await showDatePicker(context: context,
-                  initialDate: dateInitial,
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime.now().add(const Duration(days: 365))); //para que pueda escoger una fecha en el calendario
+                  DateTime? newDate = await showDatePicker(
+                    context: context,
+                    initialDate: dateInitial,
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(const Duration(days: 365))
+                  ); //para que pueda escoger una fecha en el calendario
 
-                  if(newDate != null) { //esto permite modificar la fecha dentro del label
+                  if (newDate != null) { //esto permite modificar la fecha dentro del label
                     setState(() {
                       dateControler.text = DateFormat('dd/MM/yyyy').format(newDate);
                       dateInitial = newDate;
@@ -163,24 +190,24 @@ class _AddExpenseState extends State<AddExpense> {
                   }
                 },
                 decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey[200], //el color de fondo del label
-                    prefixIcon: const Icon(
-                      FontAwesomeIcons.calendar, 
-                      size: 17,
-                      color: Colors.black54,
-                      ),
-                    label: Text("Fecha", style: TextStyle(color: Colors.black54),), //deje el label en cambio del hinttext porque la animacion que tiene es muy bacana
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide.none //para que no hayan bordes
-                    )
+                  filled: true,
+                  fillColor: Colors.grey[200], //el color de fondo del label
+                  prefixIcon: const Icon(
+                    FontAwesomeIcons.calendar, 
+                    size: 17,
+                    color: Colors.black54,
+                  ),
+                  label: Text("Fecha", style: TextStyle(color: Colors.black54),), //deje el label en cambio del hinttext porque la animacion que tiene es muy bacana
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide.none //para que no hayan bordes
                   )
+                )
               ),
               const SizedBox(height: 16),  
-               SizedBox(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.3,
-                 child: TextButton(
+                child: TextButton(
                   onPressed: () {},
                   style: TextButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.primary,
@@ -188,9 +215,9 @@ class _AddExpenseState extends State<AddExpense> {
                   child: const Text(
                     "Añadir",
                     style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
-                    )
-                  ),
-               )
+                  )
+                ),
+              )
             ],
           ),
         ),
