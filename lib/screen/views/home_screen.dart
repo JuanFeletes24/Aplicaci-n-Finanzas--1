@@ -38,6 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(
               CupertinoIcons.home,
+              //estamos usando un operador ternario
+              //si el indice es 0 entonces la pestaña de inicio está seleccionada 
               color: index == 0 ? itemSelected : itemUnSelected,
               ),
             label: 'Inicio'
