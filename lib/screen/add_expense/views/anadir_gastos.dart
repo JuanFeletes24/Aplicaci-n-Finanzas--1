@@ -145,18 +145,27 @@ class _AddExpenseState extends State<AddExpense> {
                                                 color: Colors.white,
                                                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)) 
                                               ),
+                                              //el gridview.builder sirve para hacerlos scroleables
                                               child: GridView.builder(
                                                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                                   
                                                   //cantidad de iconos mostrados en el grid
-                                                  crossAxisCount: 3),
+                                                  crossAxisCount: 4,
+                                                  //espacio entre los iconos, aún no de a cuantos alinearlos
+                                                  mainAxisSpacing: 5,
+                                                  crossAxisSpacing: 5,
+                                                
+                                                  ),
+                                                   
                                                 //se define por la cantidad de iconos de la lista
                                                 itemCount: categoriaIconos.length,
                                               itemBuilder: (context, int i){
                                                 return Container(
+                                                   
                                                   width: 50,
                                                   height: 50,
                                                   decoration: BoxDecoration(
+                                                    border: Border.all(),
                                                     image: DecorationImage(
                                                       image: AssetImage(
                                                         'iconos/${categoriaIconos[i]}.png'
@@ -265,3 +274,4 @@ class _AddExpenseState extends State<AddExpense> {
     );
   }
 }
+
