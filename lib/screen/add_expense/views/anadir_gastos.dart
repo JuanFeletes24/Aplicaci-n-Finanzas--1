@@ -23,6 +23,7 @@ class _AddExpenseState extends State<AddExpense> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return GestureDetector( //el gesturedetector permite deseleccionar los labels si le das fuera de estos.
       onTap: () => FocusScope.of(context).unfocus(), //funcion que permite deseleccionar
@@ -82,6 +83,8 @@ class _AddExpenseState extends State<AddExpense> {
                             context: context,
                             builder: (ctx) {
                               return AlertDialog(
+                                title: const Text("Crea una categoria"),
+
                                 content: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
