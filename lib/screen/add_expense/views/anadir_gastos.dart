@@ -24,6 +24,7 @@ class _AddExpenseState extends State<AddExpense> {
     'mascotas',
     'tecno',
     'viaje',
+    'impuestos',
 
 
   ];
