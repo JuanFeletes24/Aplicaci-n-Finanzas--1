@@ -29,7 +29,7 @@ class _AddExpenseState extends State<AddExpense> {
   ];
 
   String iconSelected = '';
-  late Color categoriaColor;
+  late Color categoriaColor = Colors.white;
 
   @override
   void initState() {
@@ -92,11 +92,13 @@ class _AddExpenseState extends State<AddExpense> {
                       color: Colors.black54,
                       ),
                       suffixIcon: IconButton(
-                        onPressed: () {
+                         onPressed: () {
                           showDialog(
                             context: context,
                             builder: (ctx) {
                               bool expandido = false;
+                              String iconSelected = '';
+                              late Color categoriaColor = Colors.white;
                               return StatefulBuilder(
                                 builder: (context, setState){
                                   return AlertDialog(
@@ -202,23 +204,31 @@ class _AddExpenseState extends State<AddExpense> {
                                             showDialog(
                                               context: context,
                                               builder: (ctx2) {
+                                                
                                                 return AlertDialog(
                                                   content: Column(
                                                     mainAxisSize: MainAxisSize.min,
                                                     children: [
                                                       ColorPicker( //widget que nos permite elegir un color
-                                                        pickerColor: Colors.blue, //color escogido por default
-                                                        onColorChanged: (value) {}, //este sera el valor que el usuario escoga dentro de la aplicacion
+                                                        pickerColor: categoriaColor, //color escogido por default
+                                                        onColorChanged: (value) {
+                                                          setState(() {
+                                                            categoriaColor = value;
+                                                          });
+                                                        }, //este sera el valor que el usuario escoga dentro de la aplicacion
                                                       ),
                                                       SizedBox(
                                                         width: double.infinity,
                                                         height: 50,
                                                         child: TextButton(
                                                         onPressed: () {
-                                                          Navigator.pop(context);
+                                                          Navigator.pop(ctx2);
                                                         },
                                                         style: TextButton.styleFrom(
-                                                          backgroundColor: Theme.of(context).colorScheme.primary,
+                                                          backgroundColor: Colors.blue,
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(12)
+                                                          )
                                                         ),
                                                         child: const Text(
                                                           "Añadir",
@@ -231,11 +241,12 @@ class _AddExpenseState extends State<AddExpense> {
                                                 );
                                               });
                                           },
+                                          
                                           readOnly: true,
                                           decoration: InputDecoration(
                                             isDense: true, //Para reducir el espacio verticial
                                             filled: true,
-                                            fillColor: Colors.white, 
+                                            fillColor: categoriaColor,
                                             label: Text("Color", style: TextStyle(color: Colors.black54),), //deje el label en cambio del hinttext porque la animacion que tiene es muy bacana
                                             border: OutlineInputBorder(
                                               borderRadius: BorderRadius.circular(20),
@@ -243,6 +254,24 @@ class _AddExpenseState extends State<AddExpense> {
                                             )
                                           )
                                         ),
+                                        const SizedBox(height: 16),
+                                        SizedBox(
+                                            width: MediaQuery.of(context).size.width * 0.3,
+                                            child: TextButton(
+                                              onPressed: () {
+                                                //CATEGORIA OBJETO
+                                                Navigator.pop(context);
+
+                                              },
+                                              style: TextButton.styleFrom(
+                                                backgroundColor: Theme.of(context).colorScheme.primary,
+                                              ),
+                                              child: const Text(
+                                                "Añadir",
+                                                style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+                                              )
+                                            ),
+                                          )
                                       ],
                                     ),
                                   );
