@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
@@ -25,9 +26,10 @@ class _AddExpenseState extends State<AddExpense> {
     'tecno',
     'viaje',
     'impuestos',
-
-
   ];
+
+  String iconSelected = '';
+  late Color categoriaColor = Colors.white;
 
   @override
   void initState() {
@@ -90,11 +92,13 @@ class _AddExpenseState extends State<AddExpense> {
                       color: Colors.black54,
                       ),
                       suffixIcon: IconButton(
-                        onPressed: () {
+                         onPressed: () {
                           showDialog(
                             context: context,
                             builder: (ctx) {
                               bool expandido = false;
+                              String iconSelected = '';
+                              late Color categoriaColor = Colors.white;
                               return StatefulBuilder(
                                 builder: (context, setState){
                                   return AlertDialog(
@@ -147,51 +151,102 @@ class _AddExpenseState extends State<AddExpense> {
                                                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)) 
                                               ),
                                               //el gridview.builder sirve para hacerlos scroleables
-                                              child: GridView.builder(
-                                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: GridView.builder(
+                                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                                    
+                                                    //cantidad de iconos mostrados en el grid
+                                                    crossAxisCount: 4,
+                                                    //espacio entre los iconos, aún no de a cuantos alinearlos
+                                                    mainAxisSpacing: 5,
+                                                    crossAxisSpacing: 5,
                                                   
-                                                  //cantidad de iconos mostrados en el grid
-                                                  crossAxisCount: 4,
-                                                  //espacio entre los iconos, aún no de a cuantos alinearlos
-                                                  mainAxisSpacing: 5,
-                                                  crossAxisSpacing: 5,
+                                                    ),
                                                 
-                                                  ),
-                                                   
-                                                //se define por la cantidad de iconos de la lista
-                                                itemCount: categoriaIconos.length,
-                                              itemBuilder: (context, int i){
-                                                return Container(
-                                                   
-                                                  width: 50,
-                                                  height: 50,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(),
-                                                    image: DecorationImage(
-                                                      image: AssetImage(
-                                                        'iconos/${categoriaIconos[i]}.png'
-                                                      )
-                                                    )
-                                                  
-                                                  
-                                                  )
-                                                
-
-                                                );
-                                            
-
-
-                                              }
+                                                  //se define por la cantidad de iconos de la lista
+                                                  itemCount: categoriaIconos.length,
+                                                itemBuilder: (context, int i){
+                                                  return GestureDetector( // permite anadir funcionalidades para que cambie el color de los iconos
+                                                    onTap: () {
+                                                      setState(() {
+                                                        iconSelected = categoriaIconos[i]; //al momento de darle al boton el color cambia
+                                                      });
+                                                    },
+                                                    child: Container(               
+                                                      width: 50,
+                                                      height: 50,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          width: 3,
+                                                          color: iconSelected == categoriaIconos[i]
+                                                                ? Colors.blue
+                                                                : Colors.grey,
+                                                        ),
+                                                        borderRadius: BorderRadius.circular(12),
+                                                        image: DecorationImage(
+                                                          image: AssetImage(
+                                                            'iconos/${categoriaIconos[i]}.png'
+                                                          )
+                                                        )                                                  
+                                                      ),
+                                                    ),
+                                                  );                                      
+                                                }
+                                                ),
                                               )
                                             )
                                           : Container(),
                                         const SizedBox(height: 16),
                                         TextFormField(
                                           textAlignVertical: TextAlignVertical.center,
+                                          onTap: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (ctx2) {
+                                                
+                                                return AlertDialog(
+                                                  content: Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                      ColorPicker( //widget que nos permite elegir un color
+                                                        pickerColor: categoriaColor, //color escogido por default
+                                                        onColorChanged: (value) {
+                                                          setState(() {
+                                                            categoriaColor = value;
+                                                          });
+                                                        }, //este sera el valor que el usuario escoga dentro de la aplicacion
+                                                      ),
+                                                      SizedBox(
+                                                        width: double.infinity,
+                                                        height: 50,
+                                                        child: TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(ctx2);
+                                                        },
+                                                        style: TextButton.styleFrom(
+                                                          backgroundColor: Colors.blue,
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(12)
+                                                          )
+                                                        ),
+                                                        child: const Text(
+                                                          "Añadir",
+                                                          style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+                                                        )
+                                                      )
+                                                      )
+                                                    ],
+                                                  ),
+                                                );
+                                              });
+                                          },
+                                          
+                                          readOnly: true,
                                           decoration: InputDecoration(
                                             isDense: true, //Para reducir el espacio verticial
                                             filled: true,
-                                            fillColor: Colors.white, 
+                                            fillColor: categoriaColor,
                                             label: Text("Color", style: TextStyle(color: Colors.black54),), //deje el label en cambio del hinttext porque la animacion que tiene es muy bacana
                                             border: OutlineInputBorder(
                                               borderRadius: BorderRadius.circular(20),
@@ -199,6 +254,24 @@ class _AddExpenseState extends State<AddExpense> {
                                             )
                                           )
                                         ),
+                                        const SizedBox(height: 16),
+                                        SizedBox(
+                                            width: MediaQuery.of(context).size.width * 0.3,
+                                            child: TextButton(
+                                              onPressed: () {
+                                                //CATEGORIA OBJETO
+                                                Navigator.pop(context);
+
+                                              },
+                                              style: TextButton.styleFrom(
+                                                backgroundColor: Theme.of(context).colorScheme.primary,
+                                              ),
+                                              child: const Text(
+                                                "Añadir",
+                                                style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+                                              )
+                                            ),
+                                          )
                                       ],
                                     ),
                                   );
