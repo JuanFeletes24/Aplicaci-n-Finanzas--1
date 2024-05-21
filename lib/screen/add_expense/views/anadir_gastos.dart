@@ -29,6 +29,7 @@ class _AddExpenseState extends State<AddExpense> {
   ];
 
   String iconSelected = '';
+  late Color categoriaColor;
 
   @override
   void initState() {
@@ -202,9 +203,30 @@ class _AddExpenseState extends State<AddExpense> {
                                               context: context,
                                               builder: (ctx2) {
                                                 return AlertDialog(
-                                                  content: ColorPicker( //widget que nos permite elegir un color
-                                                    pickerColor: Colors.blue, //color escogido por default
-                                                    onColorChanged: (value) {}, //este sera el valor que el usuario escoga dentro de la aplicacion
+                                                  content: Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                      ColorPicker( //widget que nos permite elegir un color
+                                                        pickerColor: Colors.blue, //color escogido por default
+                                                        onColorChanged: (value) {}, //este sera el valor que el usuario escoga dentro de la aplicacion
+                                                      ),
+                                                      SizedBox(
+                                                        width: double.infinity,
+                                                        height: 50,
+                                                        child: TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(context);
+                                                        },
+                                                        style: TextButton.styleFrom(
+                                                          backgroundColor: Theme.of(context).colorScheme.primary,
+                                                        ),
+                                                        child: const Text(
+                                                          "Añadir",
+                                                          style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+                                                        )
+                                                      )
+                                                      )
+                                                    ],
                                                   ),
                                                 );
                                               });
